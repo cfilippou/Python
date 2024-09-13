@@ -1,4 +1,4 @@
-#Christos | Artificial Intelligence Graduate
+# Christos | Artificial Intelligence Graduate
 I hold a degree in Artificial Intelligence from the University of Essex, where I developed a strong 
 foundation in machine learning, data science, and AI-driven technologies. My academic experience 
 encompassed key areas such as neural networks, natural language processing, and deep learning, 
