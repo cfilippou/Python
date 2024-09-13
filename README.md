@@ -5,5 +5,5 @@ encompassed key areas such as neural networks, natural language processing, and 
 equipping me with the skills to solve complex problems and innovate in the rapidly evolving AI landscape.
 
 Passionate about coding, I am proficient in programming languages such as Python, and have hands-on 
-experience with AI frameworks like TensorFlow and PyTorch. I aim to leverage my expertise to contribute to 
+experience with AI frameworks like TensorFlow. I aim to leverage my expertise to contribute to 
 open-source projects, collaborate with fellow developers, and push the boundaries of AI research and development.
