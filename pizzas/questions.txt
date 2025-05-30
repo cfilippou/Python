@@ -1,0 +1,24 @@
+1. Find all customers with the last name "Papadopoulos".
+2. How many pizzas are there in "Large" size?
+3. Find all pizza types that contain "mushrooms" in their ingredients.
+4. Find orders that were placed on 15/01/2025.
+5. Find the average price of pizzas by size.
+6. Find all pizzas that cost more than 15 euros.
+7. Who are the 5 customers with the most orders?
+8. Which pizza type has been ordered the most times?
+9. How much total revenue has been generated from pizza orders?
+10. Which days have the highest number of orders?
+11. Find customers who have ordered at least 3 different pizza types.
+12. Which pizza category is the most popular based on the number of orders?
+13. What is the most profitable pizza type (considering quantity and price)?
+14. For each customer, find their favorite pizza category (the one they have ordered the most).
+15. What is the average order value per hour of the day? At what time do we have the most profitable orders?
+16. Which customers have ordered all available pizza types?
+17. Find pairs of pizzas that are frequently ordered together.
+18. Which customer has spent the most money and what is the average value of their orders?
+19. Find "dead hour" intervals where we have no orders, lasting at least 2 hours.
+20. Calculate the "customer lifetime value" for each customer, based on their purchase history.
+21. Market basket analysis: Find correlation rules between pizza types.
+22. Create an RFM (Recency, Frequency, Monetary) pricing prediction model for customer segmentation.
+23. Calculate aggregate statistics for the average time between orders per customer, suggest recommendations for customers who are likely to place new orders in the coming days.
+24. Create a scoring system to identify "loyal customers" based on order frequency, total purchase value, and variety of products they choose, and suggest personalized offers for each customer category.
