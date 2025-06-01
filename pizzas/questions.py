@@ -61,6 +61,28 @@ pizzas[pizzas['price'] > 15]
 
 
 
+#-------------------------------------------------------------------------
+# Q19. Find "dead hour" intervals where we have no orders, lasting at least 2 hours
+#-------------------------------------------------------------------------
+orders['time'] = pd.to_datetime(orders['time'], format='%H:%M:%S', errors='coerce')
+orders['cat'] = orders['time'].apply(lambda x: x.hour // 2)
+df = pd.DataFrame(orders['cat'].value_counts()).reset_index()
+cats = pd.DataFrame({'cat': [x for x in range(12)]})
+diff = cats[~cats['cat'].isin(df['cat'])]
+diff['range'] = diff['cat'].apply(lambda x: f'{x*2:02d}:00 - {x*2 + 2:02d}:00')
+print('Two-hour periods without orders')
+print(diff)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
