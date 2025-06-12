@@ -93,6 +93,26 @@ idx = step_4.groupby('cid')['count'].idxmax()
 step_5 = step_4.loc[idx, ['cid', 'pizzaid', 'count']]
 
 #-------------------------------------------------------------------------------------------------------
+# Q16. Which customers have ordered all available pizza types?
+#-------------------------------------------------------------------------------------------------------
+# Merge customers with orders using left join on customer id
+step_1 = customers.merge(orders, how='left', left_on='id', right_on='cid')
+
+# Merge the result with order_details using left join on order_id
+step_2 = step_1.merge(order_details, how='left', left_on = 'order_id', right_on='orderid')
+
+# Group by customer id and pizza id, then count occurrences and reset index
+step_3 = step_2.groupby(['id', 'pizzaid'])['cid'].agg(['count']).reset_index()
+
+# Group by customer id and count unique pizza types per customer
+step_4 = step_3.groupby('id')['pizzaid'].agg(['count'])
+
+# Sort customers by pizza type count in descending order
+step_4 = step_4.sort_values(by=['count'], ascending = False)
+
+# Filter customers who have ordered all available pizza types
+res = step_4.query(f'count == {pizzas.shape[0]}')
+#-------------------------------------------------------------------------------------------------------
 # Q19. Find "dead hour" intervals where we have no orders, lasting at least 2 hours
 #-------------------------------------------------------------------------------------------------------
 # Convert the 'time' column to datetime format using the specified time format
