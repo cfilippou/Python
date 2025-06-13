@@ -58,8 +58,13 @@ step_2 = step_1.groupby(by = ['firstname', 'lastname'])['order_id'].agg('count')
 step_2 = step_2.sort_values(ascending = False)
 step_3 = step_2[:5]
 
-
-
+#-------------------------------------------------------------------------------------------------------
+# Q8. Which 5 pizza type has been ordered the most times?
+#-------------------------------------------------------------------------------------------------------
+step_1 = order_details.merge(pizzas, how='left', left_on='pizzaid', right_on='pizza_id')
+step_2 = step_1.merge(pizza_types, how='left', left_on='pizza_type_id', right_on='pizza_type_id')
+step_3 = step_2.groupby('name')['pizza_type_id'].agg('count').sort_values(ascending=False)
+print(step_3[:5])
 
 #-------------------------------------------------------------------------------------------------------
 # Q14. For each customer, find their favorite pizza category (the one they have ordered the most)
