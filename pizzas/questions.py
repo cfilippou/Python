@@ -53,7 +53,10 @@ pizzas[pizzas['price'] > 15]
 #-------------------------------------------------------------------------------------------------------
 # Q7. Who are the 5 customers with the most orders?
 #-------------------------------------------------------------------------------------------------------
-
+step_1 = customers.merge(orders, how='left', left_on = 'id', right_on = 'cid')
+step_2 = step_1.groupby(by = ['firstname', 'lastname'])['order_id'].agg('count')
+step_2 = step_2.sort_values(ascending = False)
+step_3 = step_2[:5]
 
 
 
