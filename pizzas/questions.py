@@ -151,8 +151,6 @@ diff['range'] = diff['cat'].apply(lambda x: f'{x*2:02d}:00 - {x*2 + 2:02d}:00')
 print('Two-hour periods without orders')
 print(diff)
 
-
-
 #-------------------------------------------------------------------------------------------------------
 # Q20. Calculate the "customer lifetime value" for each customer, based on their purchase history
 #-------------------------------------------------------------------------------------------------------
@@ -188,13 +186,3 @@ step_3 = orders.groupby('cid')['order_id'].agg('count').reset_index()
 # Combine frequency data with the monetary value and date range data
 # This creates a comprehensive dataset with all CLV components: frequency, monetary value, and time span
 step_3 = step_3.merge(step_2, how="left", on='cid')
-
-
-
-
-
-
-
-
-
-
