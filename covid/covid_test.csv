@@ -1,0 +1,4 @@
+Patient_ID,Age,Gender,Region,Preexisting_Condition,Date_of_Infection,COVID_Strain,Symptoms,Severity,Hospitalized,Hospital_Admission_Date,Hospital_Discharge_Date,ICU_Admission,Ventilator_Support,Recovered,Date_of_Recovery,Reinfection,Date_of_Reinfection,Vaccination_Status,Vaccine_Type,Doses_Received,Date_of_Last_Dose,Long_COVID_Symptoms,Occupation,Smoking_Status,BMI
+1,69,Male,Hovedstaden,Obesity,2022-06-21,Delta,Mild,Moderate,Yes,2025-01-13,2025-01-26,No,No,Yes,2023-04-19,No,,Yes,None,1,2022-09-22,None,Healthcare,Never,27.7
+11,20,Male,Sjælland,Hypertension,2023-04-08,Beta,Severe,Low,No,,,No,No,No,,Yes,2025-05-21,No,None,0,,None,Teacher,Never,27.1
+40,44,Male,Syddanmark,Cardiovascular,2022-10-01,Alpha,Severe,High,Yes,2023-05-13,2024-04-20,Yes,No,Yes,2023-10-26,No,,Yes,Janssen,1,2022-06-08,None,Student,Never,26.7
