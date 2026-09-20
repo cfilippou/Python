@@ -1,219 +1,228 @@
-# Emotion-Based Music Player with AI
+# Emotion-Based AI Image Assistant
 
-An intelligent web application that combines **Computer Vision**, **Facial Emotion Recognition**, **Large Language Models (LLMs)** and **music recommendation**.
+A Flask web application implementing the assignment requirements:
 
-The application analyses an uploaded image, detects facial expressions, identifies visual objects, generates natural-language descriptions using an LLM, and recommends music according to the detected dominant facial expression.
+- Facial emotion recognition with a pre-trained DeepFace model.
+- Seven basic emotion categories: happy, sad, angry, fear, disgust, surprise, neutral.
+- Emotion labels, confidence scores and face bounding boxes.
+- YOLOv8 object detection with labels, confidence scores and bounding boxes.
+- Annotated output image.
+- Τοπική ενσωμάτωση Llama 3.2 μέσω Ollama.
+- Chat-style Flask interface.
+- Emotion distribution visualization with Chart.js.
+- Error handling for invalid/large uploads and failed model/API responses.
+- Suitable for GitHub submission and adaptable for Render / Hugging Face Spaces / PythonAnywhere.
 
-This project was developed as part of the **Artificial Intelligence (AI109)** module.
+## 1. Recommended Python version
 
----
+Use Python 3.10 or 3.11.
 
-## Features
+## 2. Create a virtual environment
 
-- Image upload through a Flask web interface
-- Face detection and facial emotion recognition
-- Seven emotion categories:
-  - Angry
-  - Disgust
-  - Fear
-  - Happy
-  - Sad
-  - Surprise
-  - Neutral
-- Confidence scores for all emotion categories
-- Face bounding-box visualization
-- Object detection using YOLOv8
-- Image descriptions generated with Llama 3.2
-- Three prompt-engineering strategies
-- Automatic LLM response evaluation
-- Emotion-based music recommendations
-- Emotion distribution visualization
-- Experimental results stored and exported as CSV
-- Responsive web interface
-- Error handling for invalid images and model failures
+Windows:
 
----
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
 
-## System Architecture
+macOS/Linux:
 
-The application combines several AI components in a single processing pipeline:
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
 
-1. The user uploads an image through the Flask interface.
-2. The image is validated and processed.
-3. Faces are detected and analysed using DeepFace.
-4. Each detected face is classified into one of seven facial-expression categories.
-5. YOLOv8 detects objects and provides additional visual context.
-6. The detected information is passed to Llama 3.2.
-7. Three different prompts generate alternative image descriptions.
-8. The generated descriptions are automatically evaluated.
-9. Music recommendations are selected according to the dominant detected facial expression.
-10. The results are displayed through the web interface and stored for experimental analysis.
+## 3. Install dependencies
 
----
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+```
 
-## Technologies
+The first run may download model weights for YOLO and DeepFace.
 
-### Backend
-- Python
-- Flask
+## 4. Configure the free LLM API
 
-### Computer Vision
-- DeepFace
-- OpenCV
-- YOLOv8 / Ultralytics
+Copy `.env.example` to `.env` and place your Hugging Face token in `HF_TOKEN`.
 
-### Large Language Model
-- Llama 3.2
-- Ollama
+On Windows PowerShell:
 
-### Frontend
-- HTML
-- CSS
-- JavaScript
+```powershell
+$env:HF_TOKEN="your_token_here"
+```
 
-### Additional Libraries
-- TensorFlow
-- Pillow
-- NumPy
-- Requests
+macOS/Linux:
 
----
+```bash
+export HF_TOKEN="your_token_here"
+```
 
-## Facial Emotion Recognition
+Without a token, the application still runs, but it uses a deterministic fallback description instead of the external LLM.
 
-Facial-expression recognition is implemented using **DeepFace**.
+## 5. Run
 
-The system analyses each detected face and produces confidence scores for seven categories:
+```bash
+python app.py
+```
 
-`angry`, `disgust`, `fear`, `happy`, `sad`, `surprise`, `neutral`
+Then open:
 
-For every detected face, the interface displays:
+```text
+http://127.0.0.1:5000
+```
 
-- Dominant predicted facial expression
-- Confidence percentage
-- Scores for all seven categories
-- Face bounding box
+## 6. Main workflow
 
-The application intentionally describes these outputs as **predicted facial expressions** rather than assuming that they represent a person's true psychological or emotional state.
+2. DeepFace detects a face and predicts facial emotion.
+3. YOLOv8 detects image objects.
+4. Detected information is sent to an open-source LLM through Hugging Face Inference API.
+5. The application generates a concise textual description.
+6. Bounding boxes and labels are rendered onto an output image.
+7. Emotion predictions are stored locally and visualized as a cumulative bar chart.
 
----
+## 7. Suggested assignment testing
 
-## Object Detection
+Use at least five diverse test images including variations in:
 
-**YOLOv8** is used to identify objects and visual context in the uploaded image.
+- lighting
+- age
+- pose
+- occlusion
+- emotion intensity
 
-Object detections are primarily used as additional input for the language model.
+For each image, record:
 
-Bounding boxes displayed in the final interface are restricted to detected faces in order to keep the visual output clear.
+- expected emotion
+- predicted emotion
+- confidence
+- detected objects
+- visual output
+- LLM response
+- observed failure cases
 
----
+## 8. Notes for deployment
 
-## LLM Integration
+AI packages can exceed the memory limits of some free hosting plans.
+For coursework, GitHub submission is usually the most reliable fallback if the selected free host cannot accommodate TensorFlow + YOLO.
 
-The project uses **Llama 3.2** locally through **Ollama**.
+For production optimization, possible improvements include:
 
-The LLM receives structured information produced by the computer-vision pipeline and generates a short description of the analysed image.
+- replacing heavyweight models with TensorFlow Lite or ONNX
+- temporal smoothing of emotion predictions
+- image resizing before inference
+- caching model instances
+- background workers for long inference requests
 
-Three prompt-engineering strategies are evaluated automatically:
 
-### Prompt 1 – Strict Factual
+## Llama 3.2 μέσω Ollama
 
-Designed to produce a concise and conservative description based closely on the model detections.
+Η εφαρμογή χρησιμοποιεί το Llama 3.2 τοπικά μέσω Ollama.
 
-### Prompt 2 – Structured Analytical
+```bash
+ollama pull llama3.2
+ollama run llama3.2
+```
 
-Produces a more structured explanation of detected faces, facial expressions, confidence scores and visual context.
+Το Flask backend συνδέεται από προεπιλογή στο `http://127.0.0.1:11434`.
+Δεν απαιτείται Hugging Face token. Οι μεταβλητές `OLLAMA_URL` και
+`OLLAMA_MODEL` μπορούν να αλλάξουν μέσω environment variables.
 
-### Prompt 3 – Natural Descriptive
 
-Produces a more natural-language description while still attempting to remain grounded in the supplied detections.
+## Music recommendations
 
-The three outputs are displayed simultaneously so that their differences can be compared.
+After each successful facial-expression analysis, the application selects the
+dominant predicted expression and displays five song recommendations in the
+format `Artist, Song`. Each recommendation links to a YouTube search page.
+No YouTube API key is required.
 
----
+The music recommendation component is intentionally lightweight: it demonstrates
+how emotion-recognition output can drive a downstream music-selection feature
+without implementing a full streaming music player.
 
-## LLM Evaluation
+## Error handling
 
-Each generated description is evaluated using three criteria:
+The application now provides specific responses for invalid image files,
+missing faces, DeepFace failures, Ollama/LLM failures, empty LLM responses,
+oversized uploads and unexpected processing errors.
 
-### Clarity
 
-Measured using a normalized **Flesch Reading Ease** score.
+## LLM response evaluation
 
-### Coherence
+The application automatically evaluates each generated Llama 3.2 description
+using three coursework-oriented metrics:
 
-Measured using a structural coherence heuristic that considers factors such as sentence structure, sentence length, lexical continuity and repetition.
+1. **Clarity — Flesch Reading Ease**  
+   Measures how easy the English text is to read. The score is normalized to
+   a 0-100 range.
 
-### Factual Accuracy
+2. **Coherence — Structural Coherence Heuristic**  
+   Evaluates whether the response follows the requested 4-5 sentence structure,
+   uses reasonable sentence lengths, maintains some lexical continuity between
+   adjacent sentences and avoids excessive repetition.
 
-Measured using a **Detection Grounding Accuracy** metric.
+3. **Factual Accuracy — Detection Grounding Accuracy**  
+   Compares the generated description with the facial-expression and object
+   detections that were supplied to the LLM. It rewards correctly reported
+   dominant emotions, confidence values and object labels, while penalizing
+   unsupported emotion labels or confidence percentages.
 
-This metric measures consistency between the generated description and the outputs supplied by the computer-vision models.
+The interface displays the three scores in a table together with an overall
+mean score. These automatic scores support the coursework evaluation, but the
+grounding metric should not be interpreted as independent real-world ground
+truth; it measures consistency with the computer-vision outputs supplied to
+the LLM.
 
-> Important: Detection Grounding Accuracy is not equivalent to ground-truth visual accuracy. If an upstream vision model produces an incorrect detection, an LLM may reproduce that incorrect detection faithfully and still receive a high grounding score.
 
-An overall score is calculated from the three evaluation criteria.
+## Prompt engineering comparison
 
----
+The application includes three prompt-engineering styles for Llama 3.2:
 
-## Music Recommendation
+1. **Strict factual**  
+   Uses highly constrained, neutral wording and minimizes interpretation.
 
-After facial-expression analysis, the application selects music recommendations according to the dominant detected facial expression.
+2. **Structured analytical**  
+   Forces a consistent sentence structure: detected faces, facial-expression
+   results, detected objects, and a final model-grounding statement.
 
-Five songs are suggested for each emotion category.
+3. **Natural descriptive**  
+   Allows more natural phrasing while retaining the same factual constraints.
 
-The recommendations provide YouTube search links and demonstrate how facial-expression recognition can be connected to an Emotion-Based Music Player.
+The selected prompt style is sent with each image analysis. After the LLM
+response is generated, the application records its clarity, coherence,
+factual-accuracy and overall scores in `prompt_evaluation_history.json`.
 
----
+The Prompt Engineering panel calculates the average scores for each prompt
+style across repeated tests. This provides direct evidence of how changes in
+prompt design affect response quality, which can be reported in the coursework.
 
-## Experimental Evaluation
 
-The system was evaluated using **10 diverse test images**.
+## Automatic three-prompt comparison per image
 
-The test set included variations in:
+The user now uploads each image only once. After the computer-vision models
+produce the face/emotion and object detections, the same evidence is sent
+automatically to Llama 3.2 three times:
 
-- Lighting conditions
-- Age
-- Facial-expression intensity
-- Multiple people
-- Face pose
-- Side-profile faces
-- Partial facial occlusion
-- Glasses
-- Low-light conditions
+1. Strict factual
+2. Structured analytical
+3. Natural descriptive
 
-The experiments demonstrated both successful detections and important failure cases.
+Each generated response is evaluated independently for clarity, coherence and
+detection-grounded factual accuracy. The interface displays three separate
+evaluation tables for the same image, allowing direct prompt-style comparison
+without requiring the image to be uploaded three times.
 
-A major limitation observed during testing was **false-positive face detection**. In some difficult images, particularly those involving unusual lighting, strong facial expressions or challenging poses, the face detector identified additional regions as faces.
 
-This affected subsequent stages of the pipeline because incorrect face detections could produce high-confidence facial-expression predictions, influence LLM descriptions and change the final music recommendation.
+## Experimental results CSV export
 
-This demonstrates an important characteristic of multi-stage AI systems: errors produced by an upstream component can propagate through downstream components.
+Every successful image analysis is automatically appended to
+`analysis_results.csv`.
 
----
+One row is created for each detected face. The file contains the image name,
+face number, dominant expression, all seven DeepFace emotion scores, detected
+objects, all three Llama 3.2 prompt responses, and the clarity, coherence,
+factual-accuracy and overall evaluation scores for each prompt style.
 
-## Experimental Results Export
-
-Successful analyses are automatically recorded in:
-
-`analysis_results.csv`
-
-Each detected face is stored as an individual row.
-
-The exported information includes:
-
-- Analysis ID
-- Timestamp
-- Image name
-- Face index
-- Dominant facial expression
-- Dominant confidence
-- Scores for all seven facial expressions
-- Detected objects
-- LLM responses
-- Clarity scores
-- Coherence scores
-- Detection Grounding Accuracy
-- Overall evaluation scores
-
-The CSV file can be exported directly through the application interface.
+The sidebar contains **Export Results (CSV)** and **Clear Saved Results**
+controls. The CSV uses UTF-8 with BOM so it can be opened conveniently in
+Microsoft Excel and can also be analysed with Python, R, SPSS or similar tools.

@@ -1,0 +1,21 @@
+# Web application
+Flask==3.0.3
+gunicorn==23.0.0
+
+# Image processing / numerical operations
+Pillow==10.4.0
+numpy==1.26.4
+opencv-python-headless==4.10.0.84
+
+# HTTP communication with local Ollama API
+requests==2.32.3
+
+# Object detection (YOLOv8)
+ultralytics==8.3.15
+
+# Facial emotion recognition
+deepface==0.0.93
+
+# DeepFace / TensorFlow compatibility
+tensorflow==2.17.0
+tf-keras==2.17.0
